@@ -65,6 +65,64 @@ export const defaultTheme = {
     propRed: '#ffa9a9',
 }
 
+export const latteThemeName = 'latte-theme'
+
+export const latteTheme = {
+    ...defaultTheme,
+
+    mainBg: '239, 241, 245',
+    mainFg: '76, 79, 105',
+    buttonBg: '30, 102, 245',
+    buttonFg: '239, 241, 245',
+    sidebarBg: '230, 233, 239',
+    sidebarFg: '76, 79, 105',
+    sidebarTextActiveBorder: '92, 95, 119',
+    sidebarWhiteLogo: 'false',
+
+    link: '#1E66F5',
+    linkVisited: 'hsla(266, 85%, 58%, 1.0)',
+
+    propDefault: 'hsla(0, 100%, 100%, 0.08)',
+    propGray: 'hsla(228, 11%, 65%, 0.4)',
+    propBrown: 'hsla(11, 59%, 67%, 0.4)',
+    propOrange: 'hsla(22, 99%, 52%, 0.4)',
+    propYellow: 'hsla(35, 77%, 49%, 0.4)',
+    propGreen: 'hsla(109, 58%, 40%, 0.4)',
+    propBlue: 'hsla(220, 91%, 54%, 0.4)',
+    propPurple: 'hsla(266, 85%, 58%, 0.4)',
+    propPink: 'hsla(316, 73%, 69%, 0.4)',
+    propRed: 'hsla(347, 87%, 44%, 0.4)',
+}
+
+export const mochaThemeName = 'mocha-theme'
+
+export const mochaTheme = {
+    ...defaultTheme,
+
+    mainBg: '30, 30, 46',
+    mainFg: '205, 214, 244',
+    buttonBg: '137, 180, 250',
+    buttonFg: '30, 30, 46',
+    sidebarBg: '24, 24, 37',
+    sidebarFg: '205, 214, 244',
+    sidebarTextActiveBorder: '186, 194, 222',
+    sidebarWhiteLogo: 'true',
+
+    link: '#89B4FA',
+    linkVisited: 'hsla(267, 84%, 81%, 1.0)',
+
+    propDefault: 'hsla(0, 100%, 100%, 0.08)',
+    propGray: 'hsla(230, 13%, 47%, 0.4)',
+    propBrown: 'hsla(0, 59%, 88%, 0.4)',
+    propOrange: 'hsla(23, 92%, 75%, 0.4)',
+    propYellow: 'hsla(41, 86%, 83%, 0.4)',
+    propGreen: 'hsla(115, 54%, 76%, 0.4)',
+    propBlue: 'hsla(217, 92%, 76%, 0.4)',
+    propPurple: 'hsla(267, 84%, 81%, 0.4)',
+    propPink: 'hsla(316, 72%, 86%, 0.4)',
+    propRed: 'hsla(343, 81%, 75%, 0.4)',
+}
+
 export const darkThemeName = 'dark-theme'
 
 export const darkTheme = {
@@ -110,15 +168,15 @@ export const lightTheme = {
 }
 
 export function setTheme(theme: Theme | null): Theme {
-    let consolidatedTheme = defaultTheme
+    let consolidatedTheme = latteTheme
     if (theme) {
-        consolidatedTheme = {...defaultTheme, ...theme}
+        consolidatedTheme = {...latteTheme, ...theme}
         UserSettings.theme = JSON.stringify(consolidatedTheme)
     } else {
         UserSettings.theme = ''
         const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)')
         if (darkThemeMq.matches) {
-            consolidatedTheme = {...defaultTheme, ...darkTheme}
+            consolidatedTheme = {...latteTheme, ...mochaTheme}
         }
     }
 
@@ -169,9 +227,9 @@ export function setTheme(theme: Theme | null): Theme {
     const mainBgColor = color(`rgb(${getComputedStyle(document.documentElement).getPropertyValue('--center-channel-bg-rgb')})`)
 
     if (Utils.isFocalboardPlugin()) {
-        let fixedTheme = lightTheme
+        let fixedTheme = latteTheme
         if (mainBgColor.isDark()) {
-            fixedTheme = darkTheme
+            fixedTheme = mochaTheme
         }
         consolidatedTheme.propDefault = fixedTheme.propDefault
         consolidatedTheme.propGray = fixedTheme.propGray
@@ -201,7 +259,7 @@ export function setTheme(theme: Theme | null): Theme {
 
 export function setMattermostTheme(theme: any): Theme {
     if (!theme) {
-        return setTheme(defaultTheme)
+        return setTheme(latteTheme)
     }
 
     document.documentElement.style.setProperty('--center-channel-bg-rgb', color(theme.centerChannelBg).rgb().array().join(', '))
@@ -214,7 +272,7 @@ export function setMattermostTheme(theme: any): Theme {
     document.documentElement.style.setProperty('--sidebar-text-active-border-rgb', color(theme.sidebarTextActiveBorder).rgb().array().join(', '))
 
     return setTheme({
-        ...defaultTheme,
+        ...latteTheme,
         mainBg: color(theme.centerChannelBg).rgb().array().join(', '),
         mainFg: color(theme.centerChannelColor).rgb().array().join(', '),
         buttonBg: color(theme.buttonBg).rgb().array().join(', '),
@@ -229,12 +287,12 @@ export function setMattermostTheme(theme: any): Theme {
 function setActiveThemeName(consolidatedTheme: Theme, theme: Theme | null) {
     if (theme === null) {
         activeThemeName = systemThemeName
-    } else if (isEqual(consolidatedTheme, darkTheme)) {
-        activeThemeName = darkThemeName
-    } else if (isEqual(consolidatedTheme, lightTheme)) {
-        activeThemeName = lightThemeName
+    } else if (isEqual(consolidatedTheme, mochaTheme)) {
+        activeThemeName = mochaThemeName
+    } else if (isEqual(consolidatedTheme, latteTheme)) {
+        activeThemeName = latteThemeName
     } else {
-        activeThemeName = defaultThemeName
+        activeThemeName = mochaThemeName
     }
 }
 
@@ -335,5 +393,5 @@ export function getSelectBaseStyle() {
 }
 
 export function getActiveThemeName(): string {
-    return activeThemeName || defaultThemeName
+    return activeThemeName || latteThemeName
 }

@@ -5,6 +5,10 @@ import {FormattedMessage, useIntl} from 'react-intl'
 
 import {Archiver} from '../../archiver'
 import {
+    latteTheme,
+    latteThemeName,
+    mochaTheme,
+    mochaThemeName,
     darkTheme,
     darkThemeName,
     defaultTheme,
@@ -57,6 +61,16 @@ const SidebarSettingsMenu = (props: Props) => {
             id: defaultThemeName,
             displayName: 'Default theme',
             theme: defaultTheme,
+        },
+        {
+            id: latteThemeName,
+            displayName: 'Catppuccin Latte theme',
+            theme: latteTheme,
+        },
+        {
+            id: mochaThemeName,
+            displayName: 'Catppuccin Mocha theme',
+            theme: mochaTheme,
         },
         {
             id: darkThemeName,
